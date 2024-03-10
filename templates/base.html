@@ -1,0 +1,185 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF_8">
+    <title>{% block title %} Homepage {% endblock title %}</title>
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock css %}
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        {% block nav %}
+
+        <nav class="nav">
+            <div class="nav-logo">
+                <a href="{% url 'home' %}" style="text-decoration: none;">
+                    <h1><span style="font-size: 40px;">M</span>usicians<span style="font-size: 35px">C</span>onnect</h1>
+                </a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="link active">Home</a></li>
+                    <li><a href="{% url 'musicianspage' %}" class="link active">Musicians</a></li>
+
+                    <div class="gigs-dropdown">
+                        <li>
+                            <Gigs href="{% url 'gigspage' %}" class="link active">Gigs</a>
+                        </li>
+                        <div class="gigs-dropcont">
+                            <li><a href="{% url 'clientgigs' %}">My Gigs</a></li>
+                            <li><a href="{% url 'search_gigs' %}">Available Gigs</a></li>
+                        </div>
+                    </div>
+                    <li><a href="{% url 'servicespage' %}" class="link"></a>Services</li>
+                    <li><i class='bx bxs-chat'></i></li>
+                </ul>
+            </div>
+            {% if request.user.is_authenticated %}
+            <div class="profile-container">
+
+                <a href="#Profile_Page" class="profilebtn" id="my-profile-link"> {{ request.user }}</a\>
+                    <div class="dropdown-content">
+                        {% if user.musician %}
+                        <img src="{{ request.user.musician.profile_picture }}" class="profilepic"
+                            id="profile-picture"></img>
+                        {% else %}
+                        <img src="{{ request.user.client.profile_picture }}" class="profilepic"
+                            id="profile-picture"></img>
+                        {% endif %}
+                        <li><a href="{% url 'view_profile' %}">View Profile</a></li>
+                        {% if user.musician %}
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        {% else %}
+                        <li><a href="{% url 'trial_application_review' %}">Dashboard</a></li>
+                        {% endif %}
+                        <li><a href="#MessagesPage">Messages and Notifications </a></li>
+                        <li><a href="#clientPage">My Transactions</a></li>
+                        <li><a href="{% url 'account_details' %}">Account Details</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                    </div>
+            </div>
+            {% else %}
+            <div class="nav-button">
+                <a class="btn" href="{% url 'landingpage' %}" style="color:white">Sign In</a>
+            </div>
+
+            {% endif %}
+        </nav>
+
+        {% endblock nav %}
+        <!--Search Bar-->
+
+        <div class="content">
+            {% block searchbar %}
+            <form action="{url 'search_gigs'}" method="post">
+                {% csrf_token %}
+                <div class="Search">
+                    <input type="text" placeholder="Search for a Musician, a job, a genre, a service...anything!"
+                        name="search_bar" class="search_bar">
+                    <button type="submit" class="bx bx-search"></button>
+                    <button type="button" class="bx bx-filter"></button>
+                </div>
+            </form>
+            {% endblock searchbar %}
+            <!--
+                <div class="filter-section">
+                    <div class="selected-filters">
+                         Add dynamically generated filter items here 
+                    </div> 
+                -->
+
+            {% block content %}
+            {% endblock content %}
+
+        </div>
+    </div>
+
+
+
+    {% block footer %}
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="nav-logo">
+                        <h1><span style="font-size: 40px;">M</span>usicians<span style="font-size: 35px">C</span>onnect
+                        </h1>
+                    </div>
+                    <div class="social-media">
+                        <i class='bx bxl-facebook-circle' onclick="function1()"></i>
+                        <i class='bx bxl-instagram' onclick="function2()"></i>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Musicians</a></li>
+                        <li><a href="#">Gigs</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">How it works</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms and Conditions</a></li>
+                        <li><a href="#">Copyright Policy</a></li>
+                        <li><a href="#">Code of Conduct</a></li>
+                        <li><a href="#">Fees and Charges</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
+            function function1() {
+                window.location.href = "https://www.facebook.com/";
+            }
+
+            function function2() {
+                window.location.href = "https://www.instagram.com/";
+            }
+
+            function logout() {
+                // Clear any client-side session data
+                // ...
+
+                // Push a new state onto the history stack (login page)
+                window.history.pushState({}, 'Login', '{% url "Login" %}');
+
+                // Disable back navigation
+                window.onpopstate = function (event) {
+                    // You can handle what happens on back button click here
+                    window.history.pushState({}, 'Login', '{% url "Login" %}');
+                };
+
+                // Redirect to the login page
+                window.location.href = '{% url "Login" %}';
+
+
+
+            }
+
+
+        </script>
+
+    </footer>
+    {% endblock footer %}
+
+</body>
+
+</html>
