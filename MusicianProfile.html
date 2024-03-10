@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} View My Profile {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/ViewProfile.css' %}">
+<script src="{% static 'script.js' %}"> </script>
+
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="edit-profile">
+    <div class="top-functionalities">
+        <h2>Your Bio</h2>
+        <h2>Your Bio</h2>
+        <div class="message-action">
+            <a href="{% url 'edit_profile' %}"><button class="hire-me-btn" id="message-btn">Edit details</button></a>
+        </div>
+    </div>
+    <!-- #Bio-section, includes the Profilepic, nameFormalities, Ratecard section etc -->
+    <div class="bio-section">
+        <div class="column-1">
+
+            <!-- Container-1: Profile Picture and Availability -->
+            <div class="container-1">
+                <div class="profile-picture" id="profile-picture-container">
+                    <!-- Placeholder for profile picture -->
+
+                    <div class="cover">
+
+                        <img src="{{ user.musician.profile_picture }}" class="uploaded-image"
+                            aria-placeholder="placeholder-image bx bxs"></img>
+                        <div class="text-overlay">{{ musician.phone_number }}</div>
+                        <div class="text-overlay"> {{ user.musician.skill_level }}
+                            {{musician.user.username}}
+                        </div>
+                        <div class="description-div">
+
+                            <label id="short-description" name="short_description"> {{ user.musician.bio }}</label>
+
+                        </div>
+                        <div class="social-media">
+                            <i class='bx bxl-facebook-circle' onclick="function1()"></i>
+                            <i class='bx bxl-instagram-alt' onclick="function2()"></i>
+                            <i class='bx bxl-twitter' onclick="function3()"></i>
+                        </div>
+                        <div class="message-action">
+                            <button class="hire-me-btn" id="message-btn">Message</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="availability" id="availability-container">
+                    <!-- Placeholder for availability status -->
+
+                    {% if user.musician.available == True %}
+                    <span
+                        style=" background-color: #64c00e; width: 13vw;text-align: center; margin-top: 1vh;  margin-bottom: 5vh; border-radius: 2px;">Available</span>
+                    {% else %}
+                    <span
+                        style="background-color: #e71111; width: 14vw; text-align: center;  margin-top: 1vh;  margin-bottom: 5vh; border-radius: 2px;">Not
+                        Available</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Container-2: Editable Information -->
+    <div class="container-2">
+        <div>
+            <h2 style="border-bottom: 2px solid grey; width: 100%;">{}</h2>
+        </div>
+        <div class="editable-info">
+
+            <div>
+                <h3> Details </h3>
+                <label for="payment-rate">Payment Rate:<label for="payment-rate" id="payment-rate" name="payment_rate"
+                        value="" style=" background-color:#ccc;">
+                        {{ user.musician.charge_rate }}/{{ user.musician.charge_rate_type }}</label></label>
+                </label>
+
+                <label for="location">Location:<label for="location" id="location" name="location" value=""
+                        style=" background-color:#ccc;"> {{ musician.user.location }}</label></label>
+
+                <label for="date-joined">Date Joined:<label for="date-joined" id="date-joined" name="date-joined"
+                        value="" style=" background-color:#ccc;"> {{ user.musician.date_joined }}</label></label>
+
+                <label for="skills">SKills:<label for="musician_skills" id="skills" name="skilss"
+                        style=" background-color:#ccc;"> {{ musician.user.skill_level }}</label></label>
+
+
+                <label for="date-joined">Average Rating:<label for="date-joined" id="date-joined" name="date-joined"
+                        value="" style=" background-color:#ccc;"> {Average Rating}</label></label>
+
+
+                <label>Client Recommendations:<label id="client-recommendations" for="client-recommendations"
+                        style=" background-color:#ccc;"> {Number from Db} </label></label>
+            </div>
+            <div class="client-action">
+                <div class="favourite">
+                    <button class="favourite-btn"><i class="bx bxs-heart"
+                            style="font-family: 'Poppins', sans-serif"></i>Favourite</button>
+                </div>
+                <div class="hire-action">
+                    <button class="hire-me-btn" onclick="showPopup()">Hire Me</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="column-2">
+
+    <!-- Container-3: Details -->
+    <div class="container-3">
+        <div class="name-desc">
+
+            <div class="name-div">
+                <h3>Stage Name: {{ user.username }}</h3>
+                <h4>Official Name: {{ musician.user.first_name }} {{ musician.user.last_name}}</h4>
+            </div>
+            <div class="description-div">
+                <label for="short-description">Musician Bio: {{ musician.user.bio }}</label>
+            </div>
+
+        </div>
+        <div class="prof-gen">
+            <div class="profession-div">
+                <!-- <label for="professions">Professions:</label>
+                    <div class="profession-controls">
+                         DO NOT FORGET!!!!!!!Container to display selected professions 
+                        <div id="selected-professions-container">
+                            { SELECTED DIVS PROFESSIONS}
+                        </div>
+                    </div> -->
+
+                <div class="genre-div">
+                    <label for="Genres">Genres:</label>
+
+                    <!-- DO NOT FORGET!!!!!!!Container to display selected genres -->
+                    {% for genre in genres %}
+                    <div id="selected-professions-container">
+                        {{ musician.genres }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<h2 class="separator" style="border: 1px solid #64c00e; margin:5% 2% 5% 2%;"></h2>
+
+
+
+<div class="work-education">
+    <div class="work-samples">
+        <div class="h2-tag">
+            <h2>Samples Of Work</h2>
+        </div>
+        <div class="samples-div">
+            <h4>{for sample in samples added}{endfor}</h4>
+            <ul>
+                <li>
+                    <div class="sample-vid">
+                        <video class="uploaded-video" src="{}" width="50%" height="25%" controls></video>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <h2 class="separator" style="border: 1px solid #ccc; margin:5% 0 5% 0 ;"></h2>
+
+    <div class="education-samples">
+        <div class="h2-tag">
+            <h2>Education | Qualifications | Certifications</h2>
+        </div>
+
+
+        <div class="image-upload-container">
+            <h4>{for sample in samples added}{endfor}</h4>
+
+            <ul>
+                <div class="samples-div">
+                    <li>
+                        <div class="sample-vid">
+                            <img class="uploaded-image" src="{}"></img>
+
+                        </div>
+                    </li>
+                </div>
+            </ul>
+        </div>
+
+
+    </div>
+
+
+</div>
+<h2 class="separator" style="border: 1px solid #64c00e; margin:5% 2% 5% 2%;"></h2>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <h2> Gig offer to {{ musician.user.username}}</h2>
+        <form id="gig-form" method="POST">
+            {% csrf_token %}
+
+            <div class="gig-input-style title">
+                <label>Title:</label>
+                <input class="gig-input-style long" type="text" placeholder="Enter the title of the job" name="title"
+                    required>*
+            </div>
+            <br>
+            <div class="gig-input-style">
+                <label>Description:*</label>
+                <textarea placeholder="A short Description of the job you're posting. Time,Place,type of event...etc"
+                    name="description" required></textarea>
+            </div>
+            <br>
+            <div class="gig-input-style">
+                <label>Budget:</label>
+                <input class="gig-input-style" type="number" placeholder="amount" name="budget"
+                    pattern="^([1-9]\d{2,4}|[1-9]\d{5}|100000)$" required>*
+            </div>
+            <br>
+            <div class="gig-input-style">
+                <label>Event Venue:</label>
+                <input type="text" placeholder="Example: Ruiru Kimbo, Kiambu." name="Venue" required>*
+            </div>
+            <br>
+            <div class="gig-input-style">
+                <label>Payment Policy:</label>
+                <select name="Payment-policy" required>
+                    <option value="">Select a category</option>
+                    <option value="Full-before-job">100%:Before Job</option>
+                    <option value="Half-before-after">50%: Before and After</option>
+                    <option value="Full-after-job">100%: After Job</option>
+                    <option value="Negotiable">Negotiable</option>
+                </select>
+            </div>
+            <br>
+            <div class="gig-input-style">
+                <label>Phone Number:</label>
+                <input type="tel" placeholder="0712-234567" name="phone" pattern="[0-9]{4}[0-9]{6}">
+            </div>
+            <br>
+            <div class="gig-input-style-long">
+                <label>Email Address:</label>
+                <input type="email" name="email" placeholder="johndoe@gmail.com"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+            </div>
+            <br>
+            <div class="gig-input-style-long">
+                <label>Offer Deadline:</label>
+                <input type="date" name="date">
+            </div>
+            <br>
+            <button type="submit" class="gig-det-btn">Gig Offer</button>
+        </form>
+
+    </div>
+    <button class="popupbtn-close" onclick="hidePopup()"><i class="bx bx-x"></i></button>
+</div>
+
+
+
+
+
+<script>
+    function function1() {
+        window.location.href = "https://www.facebook.com/";
+    }
+
+    function function2() {
+        window.location.href = "https://www.instagram.com/";
+    }
+    function function3() {
+        window.location.href = "https://www.X.com/";
+    }
+    //function to show/hide the New_Gig popup
+    function showPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function hidePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+</script>
+</div>
+</div>
+
+{% block footer %}
+{% endblock footer %}
+
+{% endblock content %}

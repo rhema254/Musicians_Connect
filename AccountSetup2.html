@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF_8">
+        <title> Edit My Profile</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/AccountSetup.css' %}">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>    
+<body>
+        <div class="wrapper">
+        <h2>User Personalization Questionnaire</h2>
+
+        <h3 class="h3-1"> Let's know you more....</h3>
+        <h3 style="font-weight: 300;float:left;"> We'll use this information to improve your interactions</h3>
+
+    <div class="container">
+        <div class="cover">
+                <div class="Qns-div">
+                        <h3> What <span style="color: rgb(255, 255, 255);">Genres of Music</span> Are you into?</h3>    
+                </div>
+
+                <div class="Genres-div">
+                        <form class="multiselectForm" id="multiselectForm" method="post" action="">  
+                                {% csrf_token %}                              
+                                <select name="selected_genres" multiple>
+                                        {% for genre in genres %}
+                                                
+                                        <option class="item" value="{{ genre.id }}">{{ genre.name}}</option>
+                                        
+                                        {% endfor %}
+                                    </select>
+                                <button  type="submit"  class="item-btn"> Save my Preferences</button>
+                        </form>    
+                </div>                        
+        </div>  
+        <h4 style="text-align: center;font-weight: 100;"> MusiciansConnect. All rights reserved.</h4>
+    </div>
+
+</div>
+
+</body>
+
+</html>

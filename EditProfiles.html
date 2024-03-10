@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Edit My Profile {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/EditProfiles.css' %}">
+<script src="{% static 'js/script.js' %}" defer></script>
+
+{% endblock css %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+
+<!---Code for the Profile editing Part: Bio, EditPart--->
+<div class="edit-profile">
+    <div class="top-functionalities">
+        <h2>Your Bio</h2>
+        <i class="bx bxs-save" id="saveTotalEdits"></i>
+    </div>
+    <!-- #Bio-section, includes the Profilepic, nameFormalities, Ratecard section etc -->
+    <div class="bio-section">
+        <div class="column-1">
+
+            <!-- Container-1: Profile Picture and Availability -->
+            <div class="container-1">
+                <div class="profile-picture" id="profile-picture-container">
+                    <!-- Placeholder for profile picture -->
+
+                    <div class="cover">
+
+                        <img src="" class="uploaded-image" aria-placeholder="placeholder-image bx bxs"></img>
+                        <input class="upload-input" type="file" name="image" accept="image/*"
+                            onchange="handleImageUpload(event) ">
+                        <div class="text-overlay">{{ musician.username }}</div>
+                    </div>
+                </div>
+                <div class="availability" id="availability-container">
+                    <!-- Placeholder for availability status -->
+                    <span>Available for hire</span>
+                </div>
+            </div>
+
+            <!-- Container-2: Editable Information -->
+            <div class="container-2">
+                <div class="editable-info">
+                    <button type="button" class="btn-edit">Edit</button>
+                    <button type="submit" class="btn-save">Save</button>
+
+                    <label for="payment-rate">Payment Rate:<label for="payment-rate" id="payment-rate"
+                            name="payment_rate" value="" style=" background-color:#ccc;">{{ musician.rate
+                            }}</label></label> </label>
+
+                    <label for="location">Location:<label for="location" id="location" name="location" value=""
+                            style=" background-color:#ccc;">{{ musician.location }}</label></label>
+
+                    <label for="date-joined">Date Joined:<label for="date-joined" id="date-joined" name="date-joined"
+                            value="" style=" background-color:#ccc;">{{ user.musician.date_joined
+                            }}</label></label>
+
+
+                    <label>Client Recommendations:<label id="client-recommendations" for="client-recommendations"
+                            style=" background-color:#ccc;">{Nothing Yet }
+                        </label></label>
+
+                    <!-- Add similar fields for location, join date, commendations, etc. -->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column-2">
+
+            <!-- Container-3: Details -->
+            <div class="container-3">
+                <div class="name-desc">
+
+                    <div class="name-div">
+                        <h3>Stage Name: {{ musician.username }}</h3>
+                        <h4>Official Name: {{ musician.fname }} {{ musician.lname }} </h4>
+                    </div>
+                    <div class="description-div">
+                        <label for="short-description">Bio:</label>
+                        <textarea id="short-description" name="short_description" maxlength="150"
+                            placeholder="Enter a short description of yourself as a professional musician. A maximum of 150 words"></textarea>
+
+                    </div>
+                    <div class="txtbtns">
+                        <button type="button" class="btn-edit"><i class="bx bxs-edit"></i></button>
+                        <button type="submit" class="btn-save"><i class="bx bxs-save"></i></button>
+                        <button type="reset" class="trashbtn"><i class="bx bxs-trash"></i></button>
+                    </div>
+                </div>
+                <div class="prof-gen">
+                    <div class="profession-div">
+                        <label for="professions">Professions:</label>
+                        <div class="profession-controls">
+                            <button id="add-professions-btn"><i class="bx bxs-plus-circle"></i></button>
+                            <select id="professions" name="professions" multiple>
+                                <option value="Singer">Singer</option>
+                                <option value="Music Educator">Music Educator</option>
+                                <option value="Sound Engineer">Sound Engineer</option>
+                                <option value="Producer">Producer</option>
+                                <option value="Instrumentalist">Instrumentalist</option>
+                                <option value="Cover Band">Cover Band</option>
+                                <option value="DJs">DJs</option>
+                                <option value="Traditional Dancers">Traditional Dancers</option>
+                                <!-- Add more options for professions -->
+                            </select>
+                            <!-- Container to display selected professions -->
+                            <div id="selected-professions-container">
+
+                            </div>
+                        </div>
+
+                        <div class="genre-div">
+                            <label for="Genres">Genres:</label>
+                            <select id="genres" name="genres" multiple>
+                                <option value="Jazz">Jazz</option>
+                                <option value="Afro-Pop">Afro-Pop</option>
+                                <option value="Funk-fusion">Funk-fusion</option>
+                                <option value="Local">Local</option>
+                                <option value="Bongo">Bongo</option>
+                                <option value="Gospel">Gospel</option>
+                                <option value="Gengeton">Gengeton</option>
+                                <option value="Drill">Drill</option>
+
+                                <!-- Add more options for professions -->
+                            </select>
+                            <!-- Container to display selected professions -->
+                            <div id="selected-professions-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container-4: Profile Completion Progress Bar -->
+                <div class="container-4">
+                    <div class="progress-bar" id="profile-progress-bar">
+                        <!-- Progress bar goes here -->
+                        <div class="progress" style="width: 50%;"> Profile Completion</div>
+                        <!-- Placeholder for progress bar -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="separator" style="border: 1px solid #64c00e; margin:5% 2% 5% 2%;"></h2>
+
+    <div class="client-action">
+        <div class="favourite">
+            <button class="favourite-btn"><i class="bx bxs-heart"
+                    style="font-family: 'Poppins', sans-serif"></i>Favourite</button>
+        </div>
+        <div class="hire-action">
+            <button class="hire-me-btn">Hire Me</button>
+        </div>
+    </div>
+
+
+
+    <div class="work-education">
+        <div class="work-samples">
+            <div class="h2-tag">
+                <h2>Samples Of Work</h2>
+            </div>
+
+            <div class="samples-div">
+
+                <button id="video-add-btn"><i class="bx bxs-plus-circle placeholder-icon"></i></button>
+                <video class="uploaded-video" controls autoplay></video>
+                <input class="upload-input" type="file" name="video" onchange="handleVideoUpload(event) ">
+            </div>
+            <div class="txtbtns">
+                <button type="button" class="btn-edit"><i class="bx bxs-edit"></i></button>
+                <button type="submit" class="btn-save"><i class="bx bxs-save"></i></button>
+                <button type="reset" class="trashbtn"><i class="bx bxs-trash"></i></button>
+            </div>
+        </div>
+
+        <h2 class="separator" style="border: 1px solid #ccc; margin:5% 0 5% 0 ;"></h2>
+
+        <div class="education-samples">
+            <div class="h2-tag">
+                <h2>Education | Qualifications | Certifications</h2>
+            </div>
+
+            <div class="cert-div">
+                <div class="image-upload-container">
+                    <button id="cert-add-btn"><i class="bx bxs-plus-circle placeholder-image"></i></button>
+                    <div>
+                        <img class="uploaded-image"></img>
+                        <img class="uploaded-image"></img>
+                        <img class="uploaded-image"></img>
+                        <img class="uploaded-image"></img>
+                    </div>
+                    <img class="uploaded-image"></img>
+
+                    <input class="upload-input" type="file" name="image" accept="image/*"
+                        onchange="handleImageUpload(event) ">
+                </div>
+            </div>
+            <div class="txtbtns">
+                <button type="button" class="btn-edit"><i class="bx bxs-edit"></i></button>
+                <button type="submit" class="btn-save"><i class="bx bxs-save"></i></button>
+                <button type="reset" class="trashbtn"><i class="bx bxs-trash"></i></button>
+            </div>
+        </div>
+
+
+    </div>
+    <h2 class="separator" style="border: 1px solid #64c00e; margin:5% 2% 5% 2%;"></h2>
+
+
+</div>
+<!-- <script src="/script.js"></script> -->
+</div>
+{% endblock content %}

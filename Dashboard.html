@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} My Dashboard {% endblock title %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Dashboard.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+<div class="wrap">
+
+    {% if messages %}
+    <div class="messages"
+        style="background-color: aqua; width: 25%; margin-left:10%; height: 5%; position: absolute; top:25%; left:25%;">
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
+    <div class="messages-pd">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <div class="applications-div">
+        <h2>My Applications</h2>
+        <ul>
+            {% for application in applications %}
+
+            <li>
+                <div class="application-card" onclick="showPopup_One()">
+                    <div class="myapplications">
+                        <p>Gig Title: {{ application.gig }}</p>
+                        <p>Date Applied: {{ application.date_applied }}</p>
+                        <p>Application id: {{ application.pk }}</p>
+                        <p>Client: {{ application.client }}</p>
+                        <p>Event Date: {{ application.gig.event_date }}</p>
+                        <p>Status: {{ application.status }}</p>
+                        <button type="submit" class="gig-btn" style=" width: 60%;">Withdraw Application</button>
+                    </div>
+                </div>
+            </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- ACcEPTED GIGS -->
+    <div class="success-applications-div">
+        <h2>My Gigs</h2>
+        <ul>
+            {% for application in accepted_applications %}
+
+            <li>
+                <div class="application-card" onclick="showPopup_One()">
+                    <div class="myapplications">
+                        <p>Gig Title: {{ application.gig }}</p>
+                        <p>Date Applied: {{ application.date_applied }}</p>
+                        <p>Client Name: {{ application.client.user.username }}</p>
+                        <p>Client email: {{ application.client.user.email }}</p>
+                        <p>Client Phone: {{ application.client.phone_number }}</p>
+                        <p>Event Date: {{ application.gig.event_date }}</p>
+                        <p>Gig Pay: Client is Okay with your Rate Charge</p>
+                        <p>Status: {{ application.status }}</p>
+                        <button type="submit" class="gig-btn"> I will take the Gig </button>
+                    </div>
+                </div>
+            </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- <div class="current-gig ">
+        <ul>
+            {% for gig in gigs %}
+            <li>
+                <div class="gig-item">
+                    <h4>Title: {{ gig.title }}</h4>
+                    <h4>Date: {{ gig.date_created }}</h4>
+                    <h4>Deadline: {{ gig.Deadline }}</h4>
+                    <h4>status: {{ gig.status }}</h4>
+                    <h4>Applications: {{ application.i }}</h4>
+                    <button class="popupbtn-close" onclick="hidePopup_One()"><i class="bx bx-x"></i></button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div> -->
+    <div class="applications-div">
+        <h2>Archived Applications</h2>
+        <ul>
+            {}
+
+            <li>
+                <div class="application-card" onclick="showPopup_One()">
+                    <div class="myapplications">
+                        <p>Gig Title: {{ application.gig }}</p>
+                        <p>Date Applied: {{ application.date_applied }}</p>
+                        <p>Application id: {{ application.pk }}</p>
+                        <p>Client: {{ application.client }}</p>
+                        <p>Event Date: {{ application.gig.event_date }}</p>
+                        <p>Status: {{ application.status }}</p>
+                    </div>
+                </div>
+            </li>
+
+            {}
+        </ul>
+    </div>
+
+</div>
+<script>
+    function showPopup_One() {
+        document.getElementById("current-gig").style.display = "block";
+    }
+
+    function hidePopup_One() {
+        document.getElementById("current-gig").style.display = "none";
+    }
+</script>
+{% endblock content %}

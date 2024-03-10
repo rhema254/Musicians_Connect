@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF_8">
+    <title>Login into your Account </title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <!---------------- Navigation Bar------------------------->
+        <nav class="nav">
+            <div class="nav-logo">
+                <p><span style="font-size: 40px;"> M</span>usicians<span style="font-size: 35px;">C</span>onnect</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="{% url 'landingpage' %}" class="link active">Home</a></li>
+                    <li><a href="{% url 'musicianspage' %}" class="link">Musicians</a></li>
+                    <li><a href="{% url 'gigspage' %}" class="link">Gigs</a></li>
+                    <li><a href="#" class="link">Services</a></li>
+                    <li><a href="#" class="link">About </a></li>
+                </ul>
+            </div>
+            <!-------------Js Function to switch up the Login and Sign up Pages on the login page--------------------->
+            <div class="nav-button">
+                <a href="{% url 'registerclients' %}"><button class="btn" id="registerBtn"> Sign Up </button></a>
+                <a href="{% url 'Login' %}"><button class="btn" id="loginBtn">I'm A Musician</button></a>
+
+            </div>
+            <!---------------------------For small Screens: This is a Hamburger Menu button------------------------->
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+
+        {% for msg in messages %}
+        <div class="success_popup" role="alert">
+            {{ msg }}
+        </div>
+        {% endfor %}
+
+        <!-----------------------------Form Box---------------------------------->
+        <div class="form-box">
+            <!--------------Login Box----------------->
+            <div class="login-container" id="login">
+                <div class="top">
+                    <header> Client Login </header>
+                </div>
+                <div class="login-forms">
+                    <form method="POST" action="" id="loginForm">
+                        {% csrf_token %}
+
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder=" Username" name="uname">
+                            <i class="bx bxs-user"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="password" class="input-field" placeholder="Password" name="pass">
+                            <i class="bx bx-key"></i>
+                        </div>
+
+                        <button type="submit" class="submit">Login</button>
+
+                    </form>
+                    <div class="two-cols">
+                        <div class="one">
+                            <input type="checkbox" id="login-check">
+                            <label for="login-check">Remember Me</label>
+                        </div>
+                        <div class="two">
+                            <label><a href="{% url 'reset_password' %}">Forgot Password?</a></label>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <span> Don't have an Account?<a href="{% url 'registerclients' %}">Sign Up</a></span>
+                    </div>
+                </div>
+
+            </div>
+            <!--------------Login Form ends Here-------------------------->
+
+            <!-----------registration form (General)---------->
+
+        </div>
+    </div>
+    <!----------------Script for small screens------------------->
+    <script>
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
+
+            if (i.className === "nav-menu") {
+
+                i.className += " responsive";
+            }
+            else {
+                i.className = "nav-menu";
+            }
+
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+
+    </script>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            var unameInput = document.querySelector('input[name="uname"]');
+            var passInput = document.querySelector('input[name="pass"]');
+
+            if (!unameInput.value || !passInput.value) {
+                alert("Please fill in all fields");
+                event.preventDefault(); // Prevent the form from being submitted
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Gigs Page{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/M-Gigs.css' %}">{% endblock css %}
+
+<body>
+    <div class="wrapper">
+
+        {% block content %}
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="content">
+            <form method="get" action="{% url 'search_gigs' %}">
+
+                <div class="Search">
+                    <input type="text" placeholder="Search for a Musician, a job, a genre, a service...anything!"
+                        name="q" class="search_bar">
+                    <button type="submit" class="bx bx-search"></button>
+                    <button type="button" class="bx bx-filter"></button>
+                </div>
+            </form>
+            <!--
+                <div class="filter-section">
+                    <div class="selected-filters">
+                        Add dynamically generated filter items here 
+                    </div> 
+                -->
+
+            <div class="jobs-section">
+                <div>
+                    <h4> Gigs found {{ gigs_count }}. Displaying total jobs</h4>
+                    <ul>
+                        {% for gig in gigs %}
+                        <li>
+                            <div class="jobpost">
+
+                                <div class="tle-dle">
+                                    <h3>Job Title: {{ gig.title }}</h3>
+                                    <h4>Deadline: {{ gig.date_created }}</h4>
+                                </div>
+
+                                <div class="description-div">
+                                    <label
+                                        style="width: 100%; height: 3vh; text-wrap: wrap; overflow-x: hidden">Description:
+                                        {{ gig.snippet }}</label>
+                                </div>
+                                <div class="apply-div">
+                                    <div class="apply-divvv">
+                                        <h3>Gig Type: {{ gig.genre }}</h3>
+                                    </div>
+                                    <div class="apply-divvv">
+                                        <h3>Budget: {{ gig.budget }}</h3>
+                                    </div>
+                                    <div class="apply-divvv">
+                                        <h3>Status: {{ gig.status }}</h3>
+                                    </div>
+                                    <!-- Hidden Fields -->
+                                    <div>
+                                        <form method="post" action="{% url 'gigspage' %}">
+                                            {% csrf_token %}
+                                            <div class="apply-divvv">
+                                                <input name="gig_id" hidden value="{{gig.pk}}" />
+                                            </div>
+                                            <!-- <div class="apply-divvv">
+                                                <input name="musician_id">Musician: {{ musician.pk }}</input>
+                                            </div>
+                                            <div class="apply-divvv">
+                                                <input name="client_id">Client: {{ client.pk }}</input>
+                                            </div> -->
+                                            <button type="submit" id="Apply-btn" class="Apply-btn">Apply</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="successful-application" style="display: none;">
+                <div class="success-card">
+                    <img src="{% static 'Resources/SuccessAnimation.gif' %}" alt="success message">
+                    <p class="success-text">Application Success!</p>
+                    <button type="button" class="close-btn">Close</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    {% endblock content %}
+
+</body>

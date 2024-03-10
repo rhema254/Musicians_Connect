@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Homepage {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/Homepage.css' %}">
+
+{% endblock css %}
+
+{% block navbar %}
+
+{% endblock navbar %}
+
+{% block content %}
+
+<div class="carousel">
+    <div class="carousel-container">
+        <div class="header">
+            <h3 class="title">Popular Jobs</h3>
+            <div class="progress-bar"></div>
+        </div>
+        <div class="popular-jobs">
+            <button class="handle left-handle">
+                <div class="text">&#8249;</div>
+            </button>
+            <div class="slider">
+
+                <img src="{% static 'Resources/Music Education.jpg' %}" class="item item-1">
+                <img src="{% static 'Resources/Vocalists.jpg' %}" class="item item-2">
+                <img src="{% static 'Resources/Instrumentalists.jpg' %}" class="item item-3">
+                <img src="{% static 'Resources/DJs.jpg' %}" class="item item-4">
+                <img src="{% static 'Resources/Cover band.jpg' %}" class="item item-5">
+                <img src="{% static 'Resources/Digital Mixer.jpg' %}" class="item item-6">
+                <img src="{% static 'Resources/Producer.jpg' %}" class="item item-7">
+                <img src="{% static 'Resources/Choir.jpg' %}" class="item item-8">
+                <img src="{% static 'Resources/Traditional Dancers.jpg' %}" class="item item-9">
+                <img src="{% static 'Resources/Song writer.jpg' %}" class="item item-10">
+            </div>
+            <button class="handle right-handle">
+                <div class="text">&#8250;</div>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="carousel">
+    <div class="carousel-container">
+        <div class="header">
+            <h3 class="title">Popular Musicians</h3>
+            <div class="progress-bar"></div>
+        </div>
+        <div class="popular-jobs">
+            <button class="handle left-handle">
+                <div class="text">&#8249;</div>
+            </button>
+            <div class="slider">
+
+                <img src="{% static 'Resources/Music Education.jpg' %}" class="item item-1">
+                <img src="{% static 'Resources/Vocalists.jpg' %}" class="item item-2">
+                <img src="{% static 'Resources/Instrumentalists.jpg' %}" class="item item-3">
+                <img src="{% static 'Resources/DJs.jpg' %}" class="item item-4">
+                <img src="{% static 'Resources/Cover band.jpg' %}" class="item item-5">
+                <img src="{% static 'Resources/Digital Mixer.jpg' %}" class="item item-6">
+                <img src="{% static 'Resources/Producer.jpg' %}" class="item item-7">
+                <img src="{% static 'Resources/Choir.jpg' %}" class="item item-8">
+                <img src="{% static 'Resources/Traditional Dancers.jpg' %}" class="item item-9">
+                <img src="{% static 'Resources/Song writer.jpg' %}" class="item item-10">
+            </div>
+            <button class="handle right-handle">
+                <div class="text">&#8250;</div>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="carousel">
+    <div class="carousel-container">
+        <div class="header">
+            <h3 class="title">Available jobs</h3>
+            <div class="progress-bar"></div>
+        </div>
+        <div class="popular-jobs">
+            <button class="handle left-handle">
+                <div class="text">&#8249;</div>
+            </button>
+            <div class="slider">
+
+                <img src="{% static 'Resources/Music Education.jpg' %}" class="item item-1">
+                <img src="{% static 'Resources/Vocalists.jpg' %}" class="item item-2">
+                <img src="{% static 'Resources/Instrumentalists.jpg' %}" class="item item-3">
+                <img src="{% static 'Resources/DJs.jpg' %}" class="item item-4">
+                <img src="{% static 'Resources/Cover band.jpg' %}" class="item item-5">
+                <img src="{% static 'Resources/Digital Mixer.jpg' %}" class="item item-6">
+                <img src="{% static 'Resources/Producer.jpg' %}" class="item item-7">
+                <img src="{% static 'Resources/Choir.jpg' %}" class="item item-8">
+                <img src="{% static 'Resources/Traditional Dancers.jpg' %}" class="item item-9">
+                <img src="{% static 'Resources/Song writer.jpg' %}" class="item item-10">
+            </div>
+            <button class="handle right-handle">
+                <div class="text">&#8250;</div>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("click", e => {
+        let handle
+        if (e.target.matches(".handle")) {
+            handle = e.target
+        } else {
+            handle = e.target.closest(".handle")
+        }
+        if (handle != null) onHandleClick(handle)
+    })
+
+    const throttleProgressBar = throttle(() => {
+        document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
+    }, 250)
+    window.addEventListener("resize", throttleProgressBar)
+
+    document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
+
+    function calculateProgressBar(progressBar) {
+        progressBar.innerHTML = ""
+        const slider = progressBar.closest(".carousel").querySelector(".slider")
+        const itemCount = slider.children.length
+        const itemsPerScreen = parseInt(
+            getComputedStyle(slider).getPropertyValue("--items-per-screen")
+        )
+        let sliderIndex = parseInt(
+            getComputedStyle(slider).getPropertyValue("--slider-index")
+        )
+        const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen)
+
+        if (sliderIndex >= progressBarItemCount) {
+            slider.style.setProperty("--slider-index", progressBarItemCount - 1)
+            sliderIndex = progressBarItemCount - 1
+        }
+
+        for (let i = 0; i < progressBarItemCount; i++) {
+            const barItem = document.createElement("div")
+            barItem.classList.add("progress-item")
+            if (i === sliderIndex) {
+                barItem.classList.add("active")
+            }
+            progressBar.append(barItem)
+        }
+    }
+
+    function onHandleClick(handle) {
+        const progressBar = handle.closest(".carousel").querySelector(".progress-bar")
+        const slider = handle.closest(".popular-jobs").querySelector(".slider")
+        const sliderIndex = parseInt(
+            getComputedStyle(slider).getPropertyValue("--slider-index")
+        )
+        const progressBarItemCount = progressBar.children.length
+        if (handle.classList.contains("left-handle")) {
+            if (sliderIndex - 1 < 0) {
+                slider.style.setProperty("--slider-index", progressBarItemCount - 1)
+                progressBar.children[sliderIndex].classList.remove("active")
+                progressBar.children[progressBarItemCount - 1].classList.add("active")
+            } else {
+                slider.style.setProperty("--slider-index", sliderIndex - 1)
+                progressBar.children[sliderIndex].classList.remove("active")
+                progressBar.children[sliderIndex - 1].classList.add("active")
+            }
+        }
+
+        if (handle.classList.contains("right-handle")) {
+            if (sliderIndex + 1 >= progressBarItemCount) {
+                slider.style.setProperty("--slider-index", 0)
+                progressBar.children[sliderIndex].classList.remove("active")
+                progressBar.children[0].classList.add("active")
+            } else {
+                slider.style.setProperty("--slider-index", sliderIndex + 1)
+                progressBar.children[sliderIndex].classList.remove("active")
+                progressBar.children[sliderIndex + 1].classList.add("active")
+            }
+        }
+    }
+
+    function throttle(cb, delay = 100) {
+        let shouldWait = false
+        let waitingArgs
+        const timeoutFunc = () => {
+            if (waitingArgs == null) {
+                shouldWait = false
+            } else {
+                cb(...waitingArgs)
+                waitingArgs = null
+                setTimeout(timeoutFunc, delay)
+            }
+        }
+
+        return (...args) => {
+            if (shouldWait) {
+                waitingArgs = args
+                return
+            }
+
+            cb(...args)
+            shouldWait = true
+            setTimeout(timeoutFunc, delay)
+        }
+    }
+
+</script>
+</div>
+{% endblock content %}

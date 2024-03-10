@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF_8">
+    <title>Musicians Connect</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/LandingPage.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <nav class="nav">
+            <div class="nav-logo">
+                <a href="{% url 'landingpage' %}" style="text-decoration: none;">
+                    <p><span style="font-size: 40px;">M</span>usicians<span style="font-size: 35px">C</span>onnect</p>
+                </a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="{% url 'AboutUs' %}" class="link">How it Works</a></li>
+                    <li><a href="{% url 'gigspage' %}" class="link">Browse Gigs</a></li>
+                    <li><a href="{% url 'musicianspage' %}" class="link">Find a Musician</a></li>
+
+                </ul>
+                
+            </div>
+
+        </nav>
+
+        <div class="container">
+            <div class="text">
+                <h2> Looking for a <span style="color: rgba(211, 224, 20,1) " font="50px">Music Professional?</span>
+                    We've Got you Covered!</h2>
+            </div>
+            <div class="cont-btn">
+                <a href="{% url 'registerclients' %}"><button class="Cbtn"><strong> I want to Hire</strong> <br> <i
+                            style="font-size: medium;"> (For Clients )</i></button></a>
+                <a href="{% url 'register' %}"><button class="Cbtn"><strong>I want a Gig</strong> <br> <i
+                            style="font-size: medium;">(For
+                            Musicians)</i></button></a>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var openLoginPage = document.getElementById("Login");
+
+            openLoginPage.addEventListener("click", function () {
+
+                var targetURL = "Login.html";
+                window.open(targetURL, "_self");
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>
