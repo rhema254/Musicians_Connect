@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Musicians {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/MusiciansPage.css' %}">
+
+{% endblock css %}
+
+{% block navbar %}
+
+{% endblock navbar %}
+
+{% block content %}
+
+
+<div class="profiles-section">
+    <!--- {AUTO POPULATE BASED ON USERS IN THE DB} -->
+
+    <div class="profiles-container">
+        <ul>
+            {% for musician in musicians %}
+            <a href="{% url 'view_profile' %}">
+                <li>
+
+                    <div class="musician-card" id="musician-card">
+                        <img src="{% static 'Resources/Producer.jpg' %}" alt="{{ musician.username }}">
+                        <div class="card-text-section">
+                            <h3 class="h3-tags musician-name" id="musician-name">{{ musician.user.username }}
+                            </h3>
+                            <div class="h4-tags profession" id="profession">{{ musician.skill_level }}</div>
+                            <div class="h4-tags location" id="location">{{ musician.location }}</div>
+                            <div class="h4-tags rate" id="rate">
+                                Ksh.{{ musician.charge_rate }}/{{ musician.charge_rate_type}}</div>
+                        </div>
+                    </div>
+
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</div>
+
+</div>
+<script>
+    function function1() {
+        window.location.href = "https://www.facebook.com/";
+    }
+
+    function function2() {
+        window.location.href = "https://www.instagram.com/";
+    }
+</script>
+
+{% endblock content %}

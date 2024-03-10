@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} My Account {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/AccountDetails.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+<div id="prof-popup" class="prof-popup">
+    <div class="button">
+        <button type="button" class="gig-det-btn" onclick="showPopup()">Edit Profile</button>
+        <a href="{% url 'password_change' %}" class="gig-det-btn">Change Password</a>
+    </div>
+    <div class="popup-content">
+        <div class="gig-input-style"> Date Joined: {{ user.date_joined }} </div>
+        <br>
+        <div class="gig-input-style">
+            <label>Username: {{ user.username }} </label>
+        </div>
+        <br>
+        <div class="gig-input-style">
+            <label>First Name: {{ user.first_name }} </label>
+        </div>
+        <br>
+        <div class="gig-input-style">
+            <label>Last Name: {{ user.last_name }} </label>
+        </div>
+        <br>
+        <div class="gig-input-style">
+            <label>Primary Email: {{ user.email }} </label>
+        </div>
+        <br>
+        <div class="gig-input-style">
+            <label>Password: ********* </label>
+        </div>
+        <br>
+        <div class="gig-input-style">
+            <label>Date of Birth: {{ user.dob }} </label>
+        </div>
+        <br>
+    </div>
+    
+</div>
+
+
+
+<div id="editpopup" class="editpopup">
+    <div class="edit-popup-content">
+        <h2> Edit my details</h2>
+        <form id="gig-form" method="POST">
+            {% csrf_token %}
+
+            <div class="gig-popup">
+                <label> Current Password:</label>
+                <input class="gig-input-style-popup" type="text" placeholder="Enter the title of the job" name="title"
+                    required>*
+            </div>
+            <br>
+            <div class="gig-popup">
+                <label> New Password:</label>
+                <input class="gig-input-style-popup" type="text" placeholder="Enter the title of the job" name="title"
+                    required>*
+            </div>
+            <br>
+            <div class="gig-popup">
+                <label> Confirm Password:</label>
+                <input class="gig-input-style-popup" type="text" placeholder="Enter the title of the job" name="title"
+                    required>*
+            </div>
+            <br>
+            <button type="submit" class="gig-det-btn">Gig Offer</button>
+        </form>
+
+    </div>
+    <button class="popupbtn-close" onclick="hidePopup()"><i class="bx bx-x"></i></button>
+</div>
+
+<script>
+    function showPopup() {
+        document.getElementById("editpopup").style.display = "block";
+    }
+
+    function hidePopup() {
+        document.getElementById("editpopup").style.display = "none";
+    }
+
+
+</script>
+{% endblock content %}

@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Gigs Page {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/C-Gigs.css' %}">
+{% endblock css %}
+
+
+
+
+{% block searchbar %}
+{% endblock searchbar %}
+
+{% block content %}
+
+
+
+<div class="myGigs-section">
+    {% if messages %}
+    <div class="messages"
+        style="position: absolute; top: 80%; left: 10%; background-color: rgb(255, 255, 255); z-index: 1000;">
+        <ul>
+            <li class="messages-pd">
+
+                {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message }}
+            </li>
+            {% endfor %}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+
+
+    <div class="column1">
+
+        <div class="create-gig">
+            <h3 class="head">Create a Gig</h3>
+            <h4> Want to create a new Gig? Click the button below to get started!</h4>
+            <button type="button" class="gig-btn" onclick="showPopup()"><i class=" bx bxs-plus-circle"></i>Create
+                new Gig</button>
+
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <h2>Create a New Gig</h2>
+                    <form id="gig-form" method="POST">
+                        {% csrf_token %}
+
+                        <div class="gig-input-style title">
+                            <label>Title:</label>
+                            <input class="gig-input-style long" type="text" placeholder="Enter the title of the job"
+                                name="title" required>*
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Category:</label>
+                            <select name="professeion_category" required>*
+                                <option value="">Select a category</option>
+                                <option value="singer">Singer</option>
+                                <option value="songwriter">Songwriter</option>
+                                <option value="producer">Producer</option>
+                                <option value="vocalist">Vocalist</option>
+                                <option value="band">Band</option>
+                                <option value="Instrumentalist">Instrumentalist</option>
+                                <option value="sound-engineer">Sound Engineer</option>
+                                <option value="music-educator">Music Educator</option>
+                                <option value="folk-traditional">Folk and Traditional</option>
+                                <option value="dj">DJ</option>
+                                <option value="cover-band">Cover Band</option>
+                                <!---- I will add more options here as needed ---->
+                            </select>
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Description:*</label>
+                            <textarea
+                                placeholder="A short Description of the job you're posting. Time,Place,type of event...etc"
+                                name="description" required></textarea>
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Budget:</label>
+                            <input class="gig-input-style" type="number" placeholder="amount" name="budget"
+                                pattern="^([1-9]\d{2,4}|[1-9]\d{5}|100000)$" required>*
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Event Venue:</label>
+                            <input type="text" placeholder="Example: Ruiru Kimbo, Kiambu." name="Venue" required>*
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Dry Run Requirement:</label>
+                            <select name="dry-run-requirement" required>
+                                <option value="">Choose one option</option>
+                                <option value="Yes">Yes(Paid Separate)</option>
+                                <option value="No">Yes(No payment)</option>
+                                <option value="Full-after-job">NO</option>
+                                <option value="Negotiable">To Be Determined</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Payment Policy:</label>
+                            <select name="Payment-policy" required>
+                                <option value="">Select a category</option>
+                                <option value="Full-before-job">100%:Before Job</option>
+                                <option value="Half-before-after">50%: Before and After</option>
+                                <option value="Full-after-job">100%: After Job</option>
+                                <option value="Negotiable">Negotiable</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="gig-input-style">
+                            <label>Phone Number:</label>
+                            <input type="tel" placeholder="0712-234567" name="phone" pattern="[0-9]{4}[0-9]{6}">
+                        </div>
+                        <br>
+                        <div class="gig-input-style-long">
+                            <label>Email Address:</label>
+                            <input type="email" name="email" placeholder="johndoe@gmail.com"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required>
+                        </div>
+                        <div class="gig-input-style-long">
+                            <label>Event Date:</label>
+                            <input type="datetime-local" name="event_date">
+                        </div>
+                        <div class="gig-input-style-long">
+                            <label>Deadline Date:</label>
+                            <input type="datetime-local" name="deadline">
+                        </div>
+                        <br>
+                        <button type="submit" class="gig-det-btn">Create Gig</button>
+                    </form>
+
+                </div>
+                <button class="popupbtn-close" onclick="hidePopup()"><i class="bx bx-x"></i></button>
+            </div>
+
+
+        </div>
+
+        <!-- DIV to show existing gigs -->
+        <div class="current-gig">
+            <h3> My Pending Gigs</h3>
+
+            <ul>
+                {% for gig in gigs %}
+
+                <li>
+                    <div class="gig-item">
+                        <h4>Title: {{ gig.title }}</h4>
+                        <h4>Date: {{ gig.date_created }}</h4>
+                        <h4>Deadline: {{ gig.expiry_date }}</h4>
+                        <h4>status: {{ gig.status }}</h4>
+                        <h4>Applications: {{ applications_count }}</h4>
+                        <button class="current-gig-btn" onclick="showPopup_One()">View Applications</button>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="column2">
+        <div class="prev-gig">
+            <h3>Shortlisted Applicants</h3>
+
+            <ul>
+                {% for shortlisted_applicant in shortlisted_applicants %}
+                <li>
+                    <div class="prev-item">
+                        <h4>Skill Match: { skill match/ job skills }</h4>
+                        <h4>
+                            Musician:{{ shortlisted_applicant.musician.user.first_name }}
+                            {{shortlisted_applicant.musician.user.last_name}}</h4>
+                        <h4>Title:{{ shortlisted_applicant.gig.title }}</h4>
+                        <h4>Date:{{ shortlisted_applicant.gig.event_date }}</h4>
+                        <h4>Skill level:{{ shortlisted_applicant.musician.skill_level }}</h4>
+                        <h4>Application Number: {{ shortlisted_applicant.id }}</h4>
+                        <h4>Gig Id:{{ shortlisted_applicant.gig.id }}</h4>
+                        <div class="decision-buttons" style="display: flex; gap: 5%;">
+                            <button class="hire-btn" type="button">View Profile</button>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="applicationId" value="{{ shortlisted_applicant.id }}">
+                                <input type="hidden" name="final_decision" value="True">
+                                <button class="hire-btn" type="submit">Hire Musician</button>
+                            </form>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="applicationId" value="{{ shortlisted_applicant.id }}">
+                                <input type="hidden" name="final_decision" value="False">
+                                <button class="hire-btn" type="submit">Reject</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="application-div" id="application-div">
+    <div class="small-search-div">
+
+        <form action="" method="post" class="application-searchbar">
+            {% csrf_token %}
+            <div class="filters">
+                <h3 class="top-h">Applicants</h3>
+                <input type="text" placeholder="Search for a Musician, a job, a genre, a service...anything!"
+                    name="search_bar" class="search_bar">
+                <button type="submit" class="bx bx-search search-btn"></button>
+                <button type="button" class="bx bx-filter filter-btn"></button>
+            </div>
+        </form>
+    </div>
+
+    <ul>
+        {% for application in applications %}
+        <li>
+            <div class="applications-div-content">
+                <div>
+                    <form method="post" class="application-decision">
+                        {% csrf_token %}
+                        <h3> Musician Name: {{ application.musician.user.username }}</h3>
+                        <h3> Gig Title: {{ application.gig.title }} </h3>
+                        <h3> Genres: {{ application.musician.genre.name }}</h3>
+                        <h3> Skill_level: {{ application.musician.skill_level }}</h3>
+                        <h3>
+                            Genres: {{ application.musician.charge_rate }} / {{ application.musician.charge_rate_type }}
+                        </h3>
+                        <h3> Date Applied: {{ application.date_applied }}</h3>
+                        <h3>Rating: {Rating}</h3>
+                    </form>
+                    <div style=" position: relative; display: flex; flex-direction: row; width: 100%;">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="applicationId" value="{{ application.id }}">
+                            <input type="hidden" name="Accept_application" value="True">
+                            <button class="hire-btn" type="submit">Shortlist</button>
+                        </form>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="applicationId" value="{{ application.id }}">
+                            <input type="hidden" name="Accept_application" value="False">
+                            <button class="hire-btn" type="submit">Reject</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <button class="popupbtn-close" onclick="hidePopup_One()"><i class="bx bx-x"></i></button>
+
+
+
+
+</div>
+
+
+<script>
+    //function for the footer FB&IG links to open on new pages.
+    function function1() {
+        window.location.href = "https://www.facebook.com/";
+    }
+
+    function function2() {
+        window.location.href = "https://www.instagram.com/";
+    }
+
+    //function to show/hide the New_Gig popup
+    function showPopup() {
+        document.getElementById("popup").style.display = "block";
+    }
+
+    function hidePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    //function to show/hide the view applications popup
+    function showPopup_One() {
+        document.getElementById("application-div").style.display = "block";
+    }
+
+    function hidePopup_One() {
+        document.getElementById("application-div").style.display = "none";
+    }
+
+
+
+</script>
+
+{% endblock content %}

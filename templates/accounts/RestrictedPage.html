@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+<title>{% Block title %} Restricted page{% block title %}</title>
+
+{% block navbar%}
+
+{% endblock navbar %}
+
+{% block content %}
+
+    <h3 style="position: absolute; top: 30px; left:100px; color: red;"> You have been redirected to this page because you are underage. Only 13years old + are allowed to be on this platform.</h3>
+
+{% endblock content %}
+

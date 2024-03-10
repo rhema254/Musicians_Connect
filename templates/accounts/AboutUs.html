@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>About Us - MusiciansConnect</title>
+    <link rel="stylesheet" href="{% static 'css/AboutUs.css' %}">
+</head>
+<body>
+    
+       <nav>
+            <ul>
+                <li><a href="{% url 'AboutUs' %}">MusiciansConnect</a></li>
+                <li><a href="{% url 'landingpage' %}">Home</a></li>
+                <li><a href="{% url 'servicespage' %}">Services</a></li>
+                <li><a href="{% url 'AboutUs' %}">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about">
+            <h2>About Us</h2>
+            <p>Welcome to MusiciansConnect, the ultimate platform for connecting musicians and clients! Our mission is to bridge the gap between talented artists and those seeking their services.</p>
+            <p>Whether you're a musician looking to showcase your skills and find new opportunities or a client searching for the perfect performer for your event, MusiciansConnect has you covered.</p>
+            <p>Join our vibrant community today and unlock endless possibilities in the world of music!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 MusiciansConnect. All rights reserved.</p>
+    </footer>
+</body>
+</html>

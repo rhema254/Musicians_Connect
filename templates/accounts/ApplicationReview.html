@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Gigs Page {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/C-Gigs.css' %}">
+{% endblock css %}
+
+
+
+
+{% block searchbar %}
+{% endblock searchbar %}
+
+{% block content %}
+
+<ul>
+    {% for application in applications %}
+    <li>
+        <div class="applications-div-content">
+            <form method="post">
+                {% csrf_token %}
+                <h3> Musician Name: {{ application.musician.user.username }}</h3>
+                <h3> Gig Title: {{ application.gig.title }} </h3>
+                <h3> Genres: {{ application.musician.genres. }}</h3>
+                <h3> Skill_level: {{ application.musician.skill_level }}</h3>
+                <h3> Genres: {{ application.musician.charge_rate }} / {{ application.musician.charge_rate_type }}
+                </h3>
+                <h3> Date Applied: {{ application.date_applied }}</h3>
+                <h3>Rating: {Rating}</h3>
+                <button class="hire-btn" type="submit" name="decision" value="hire">Hire</button>
+                <button class="hire-btn" type="submit" name="decision" value="reject">Reject</button>
+            </form>
+
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

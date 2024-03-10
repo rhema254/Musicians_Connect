@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF_8">
+    <title> Welcome to MusiciansConnect! </title>
+
+
+    {% load static %}
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{% static 'css/Register.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <!---------------- Navigation Bar------------------------->
+        <nav class="nav">
+            <div class="nav-logo">
+                <p><span style="font-size: 40px;"> M</span>usicians<span style="font-size: 35px;">C</span>onnect</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="{% url 'landingpage' %}" class="link active">Home</a></li>
+                    <li><a href="{% url 'musicianspage' %}" class="link">Musicians</a></li>
+                    <li><a href="{% url 'gigspage' %}" class="link">Gigs</a></li>
+                    <li><a href="{% url 'AboutUs' %}" class="link">Services</a></li>
+                    <li><a href="{% url 'AboutUs' %}" class="link">About </a></li>
+                </ul>
+            </div>
+            <!-------------Js Function to switch up the Login and Sign up Pages on the login page--------------------->
+            <div class="nav-button">
+                <a href="{% url 'Login' %}"><button class="btn" id="loginBtn"> Sign In</button></a>
+            </div>
+            <!---------------------------For small Screens: This is a Hamburger Menu button------------------------->
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+
+        <!-----------------------------Form Box---------------------------------->
+        <div class="form-box">
+
+
+            <!-----------registration form (General)---------->
+            <div class="register-container" id="register">
+                <div class="top">
+                    <header> Musician Sign Up</header>
+                </div>
+                <div class="two-forms">
+                    <!--------------------registration form(Only)------------------------------>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+
+                            {{ form.as_p }}
+                            
+                        <div class="input-box">
+                            <button type="submit" class="submit">Register</button>
+                        </div>
+                    </form>
+
+                    <div class="two-col">
+                        <div class="one">
+                            <input type="checkbox" id="register-check">
+                            <label for="register-check">Remember Me</label>
+                        </div>
+                        <div class="two">
+                            <label><a href="#"> Terms and Conditions </a></label>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <span> Have an Account?<a href="#" onclick="GoTologin()"> Login</a></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!----------------Script for small screens------------------->
+    <script>
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
+
+            if (i.className === "nav-menu") {
+
+                i.className += " responsive";
+            }
+            else {
+                i.className = "nav-menu";
+            }
+
+        }
+
+        function myFunction() {
+            var x = document.getElementById("my-Input");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        //function to verify password1 and password2
+        document.getElementById('confirm_password').addEventListener('keyup', function () {
+            var password = document.getElementById('password').value;
+            var confirm_password = this.value;
+            var feedback = document.getElementById('passwordFeedback');
+            if (password === confirm_password) {
+                feedback.textContent = 'Passwords match';
+                feedback.style.color = 'green';
+            } else {
+                feedback.textContent = 'Passwords do not match';
+                feedback.style.color = 'red';
+            }
+        });
+
+        // function to clear similar username error message 
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF_8">
+        <title> Edit My Profile</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/AccountSetup.css' %}">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>    
+<body>
+        <div class="wrapper">
+        <h2>User Personalization Questionnaire</h2>
+
+        <h3 class="h3-1"> Let's know you more....</h3>
+        <h3 style="font-weight: 300;float:left;"> We'll use this information to improve your interactions</h3>
+
+    <div class="container">
+        <div class="cover">
+                <div class="Qns-div">
+                        <h3> What <span style="color: rgb(255, 255, 255);">Genres of Music</span> Are you into?</h3>    
+                </div>
+
+                <div class="Genres-div">
+                        <form class="multiselectForm" id="multiselectForm" method="post" action="">  
+                                {% csrf_token %}                              
+                                <select name="selected_genres[]" multiple>
+                                        <option class="item" value="Jazz">Jazz</option>
+                                        <option class="item" value="Afro">Afro</option>
+                                        <option class="item" value="EDM">EDM</option>
+                                        <option class="item" value="Choral">Choral</option>
+                                        <option class="item" value="House">House</option>
+                                        <option class="item" value="GengeTon">GengeTon</option>
+                                        <option class="item" value="Rap">Rap</option>
+                                        <option class="item" value="Gospel">Gospel</option>
+                                        <option class="item" value="Pop">Pop</option>
+                                        <option class="item" value="Alternative">Alternative</option>
+                                        <option class="item" value="Mugithi">Mugithi</option>
+                                        <option class="item" value="Kigocho">Kigocho</option>
+                                        <option class="item" value="Poetry">Poetry</option>
+                                        <option class="item" value="Traditional Dance">Traditional Dance</option>
+                                        <option class="item" value="Reggae">Reggae</option>
+                                        <option class="item" value="Roots">Roots</option>
+                                        <option class="item" value="Country">Country</option>
+                                        <option class="item" value="Classical">Classical</option>
+                                        <option class="item" value="K-pop">K-pop</option>
+                                        <option class="item" value="Blues">Blues</option>
+                                        <option class="item" value="Funk">Funk</option>
+                                    </select>
+                                <button  type="submit"  class="item-btn" onclick="saveSelectedItems()"> Save my Preferences</button>
+                        </form>    
+                </div>                        
+        </div>  
+        <h4 style="text-align: center;font-weight: 100;"> MusiciansConnect. All rights reserved.</h4>
+    </div>
+
+</div>
+<script>
+
+        
+                document.getElementById('multiselectForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Serialize form data
+                const formData = new FormData(this);
+
+                // Send form data via fetch API
+                fetch('/save_selected_genres/', {
+                        method: 'POST',
+                        headers: {
+                        'X-CSRFToken': getCookie('csrftoken') // Assuming you have a function to get CSRF token
+                        },
+                        body: formData
+                })
+                .then(response => {
+                        if (response.ok) {
+                        // Handle success response
+                        console.log('Form submitted successfully');
+                        } else {
+                        // Handle error response
+                        console.error('Failed to submit form');
+                        }
+                })
+                .catch(error => {
+                        // Handle fetch error
+                        console.error('Error:', error);
+                });
+        });
+
+        function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.startsWith(name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                        }
+                        }
+                }
+                return cookieValue;
+        }
+
+
+</script>
+</body>
+
+</html>
