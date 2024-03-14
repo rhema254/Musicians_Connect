@@ -46,10 +46,18 @@ class Musician(models.Model):
     charge_rate = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0.0)#implement null functionality
     charge_rate_type = models.CharField(max_length=10, choices=CHARGE_RATE_CHOICES)
     dob = models.DateField(blank=False)
-    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_images', blank=True)
-    bio = models.CharField(max_length=255, blank=True)
-    available = models.BooleanField(default=True)
-   
+    # profile_picture = models.ImageField(default='default.jpg', upload_to='profile_images', blank=True)
+    # bio = models.CharField(max_length=255, blank=True)
+    # available = models.BooleanField(default=True)
+    # title = models.CharField(max_length=50, null=True, blank=True)
+    # experience = models.TextField(blank=True)
+    # instagram = models.CharField(max_length=255, blank=True)
+    # facebook = models.CharField(max_length=255, blank=True)
+    # certifications = models.FileField()
+    # sample1: Video section
+    # sample2: Video
+
+
     def __str__(self):
         return self.user.username
 
@@ -97,18 +105,18 @@ class Gig(models.Model):
     
     title = models.CharField(max_length=100)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='gigs', )
-    genres = models.ManyToManyField('Genre', related_name='gigs')
+    genres = models.ManyToManyField('Genre', related_name='gigs', default="Jazz")
     description = models.TextField()
     email = models.EmailField()
     location = models.CharField(max_length=100, null=True)
     date_created = models.DateField(auto_now_add=True, auto_created=True)
-    expiry_date = models.DateField(auto_now_add=False, null=True)
+    expiry_date = models.DateTimeField(auto_now_add=False, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Open")
     budget = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     Profession_category = models.CharField(max_length=25, choices=PROFESSION_CHOICES,  null=True)
     dry_run = models.CharField(max_length=20, choices = dry_run_choices,  null=True)
     payment_policy = models.CharField(max_length=20, choices= PAYMENT_POLICY_CHOICES,  null=True)
-    event_date = models.DateField(auto_now_add=False, null=True)  
+    event_date = models.DateTimeField(auto_now_add=False, null=True)  
     
 
     def __str__(self):
@@ -131,7 +139,7 @@ class Application(models.Model):
     musician = models.ForeignKey(Musician, on_delete=models.PROTECT) #Will probably raise integrity issues, How to handle them?
     date_applied = models.DateTimeField(auto_now_add=True)
     gig =  models.ForeignKey(Gig, on_delete=models.PROTECT)
-    status = models.CharField(max_length=20, choices=(("Submitted", "Submitted"), ("Pending", "Pending"), ("Accepted", "Accepted"), ("Rejected", "Rejected")), default="Submitted")
+    status = models.CharField(max_length=20, choices=(("Submitted", "Submitted"), ("Pending", "Pending"), ("Accepted", "Accepted"), ("Rejected", "Rejected"), ("Done", "Done")), default="Submitted")
     
     
     class Meta:
@@ -139,7 +147,18 @@ class Application(models.Model):
 
     def __str__(self):
         return f"Job by - {self.client} - {self.musician} applied for {self.gig.title} on {self.date_applied}"
-  
+
+
+class SuccessfulHire(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    musician = models.ForeignKey(Musician, on_delete=models.PROTECT)
+    gig = models.ForeignKey(Gig, on_delete=models.PROTECT)
+    application = models.OneToOneField(Application, on_delete=models.CASCADE, related_name="successfulhire")
+    completion_status = models.CharField(max_length=20, choices=(("Ongoing", "Ongoing"), ("Completed", "Completed"), ("Cancelled", "Cancelled"), ("Done", "Done")), default="Ongoing")    
+    date_created = models.DateField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.client} - hired {self.musician}  for {self.gig.title} on {self.gig.event_date}"
+    
 
 #Not Complete!
 class Message(models.Model):
@@ -173,3 +192,12 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.client.username} on {self.musician.username}"
+
+
+class Payment(models.Model):
+    
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    SuccessfulHire = models.ForeignKey(SuccessfulHire, on_delete=models.CASCADE)
+    
+    

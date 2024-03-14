@@ -1,0 +1,10 @@
+{% extends 'dashboard/AdminDashboard.html' %}
+
+{% load static %}
+
+
+{% block page %}<a href="{% url 'admin_dashboard' %}"> Admin Dashboard </a>
+</li>
+<li><i class='bx bx-chevron-right'></i></li>
+<li>
+    <a class="active" href="{% url 'payments' %}">Payments</a>{% endblock page %}

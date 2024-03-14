@@ -1,0 +1,52 @@
+
+<div class="table-data">
+    <div class="order">
+      <div class="head">
+        <h3>Ongoing Gigs</h3>
+        <i class='bx bx-search'></i>
+        <i class='bx bx-filter'></i>
+      </div>
+
+      <!-- Table  -->
+      <table>
+        <!-- Table Headers.  -->
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Event_date</th>
+            <th>Musician</th>
+            <th>Client</th>
+            <th>Genre</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for gig in gigs %}
+          <li>
+            <tr>
+              <td>
+                <img src="img/people.png">
+                <p>{{ gig.snippet }}</p>
+              </td>
+              <td>{{ gig.event_date }}</td>
+              <td>{{ gig.musician.user.username }}</td>
+              <td>{{ gig.client.user.username }}</td>
+              <td>{{ gig.genre }}</td>
+              <td><span class="status completed">Completed</span></td>
+            </tr>
+          </li>
+          {% endfor %}
+
+
+          <tr>
+            <td>
+              <img src="img/people.png">
+              <p>John Doe</p>
+            </td>
+            <td>01-10-2021</td>
+            <td><span class="status pending">Pending</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>

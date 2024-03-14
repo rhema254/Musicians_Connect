@@ -7,11 +7,13 @@ from .models import *
 # admin.site.register(Gig)
 #admin.site.register(Client)
 admin.site.register(Genre)
+#admin.site.register(SuccessfulHire)
 # admin.site.register(Application)
+admin.site.register(Notification)
 
 @admin.register(Musician)
 class MusicianAdmin(admin.ModelAdmin):
-    list_display = ('user', 'phone_number', 'location', 'skill_level', 'charge_rate', 'charge_rate_type', 'dob', 'available')
+    list_display = ('user', 'phone_number', 'location', 'skill_level', 'charge_rate', 'charge_rate_type', 'dob')
     readonly_fields = ('dob',)
 
 @admin.register(Application)
@@ -37,3 +39,8 @@ class ClientAdmin(admin.ModelAdmin):
         return ', '.join([genre.name for genre in obj.genres.all()])
 
     get_genres.short_description = 'Genres'  # Set a descriptive name for the displayed genre list
+
+@admin.register(SuccessfulHire)
+class SuccessfulHireAdmin(admin.ModelAdmin):
+  list_display = ('client', 'musician', 'gig', 'completion_status', 'date_created')
+  readonly_fields = ('client', 'musician', 'gig', 'date_created')

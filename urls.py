@@ -4,6 +4,7 @@ from .views import *
 
 
 urlpatterns = [
+    path("base/", base, name="base"),
     path("accounts/login/", LandingPage, name="landingpage"),
     path("aboutus/", about_us, name="AboutUs"),
     path("restricted_page/", restricted_page, name="restricted_page"),
@@ -14,6 +15,7 @@ urlpatterns = [
     path("check_username/", check_username, name="check_username"),  # Musician
     path("Login/", Login, name="Login"),  # Clients
     path("loginclients/", loginclients, name="loginclients"),
+    path("logout", user_logout, name="logout"),
 
     
     # path("password/", auth_views.PasswordChangeView. as_view(template_name='accounts/ChangePassword.html')),
@@ -29,8 +31,8 @@ urlpatterns = [
     ## Trial Dashboards 
     path("dashboard/", dashboard, name="dashboard"),
     # path("trial_dashboard/", trial_dashboard, name="trial_dashboard"),
-    # path("application_review/", application_review, name="application_review"),
-    path("application_review/", trial_application_review, name="trial_application_review"),
+     path("application_review/", application_review, name="application_review"),
+     path("trial_application_review/", trial_application_review, name="trial_application_review"),
     
     ###
     path("musicianspage/", musicianspage, name="musicianspage"),
@@ -38,14 +40,14 @@ urlpatterns = [
     
     path("gigspage/", gigs, name="gigspage"),
     # path("apply_gig/", apply_gig, name="apply_gig"),
-
-    path("logout", user_logout, name="logout"),
+    path("finalise_agreement/<int:shortlisted_applicant_id>/", finalise_agreement, name="finalise_agreement"),
+    
     path("mygigs/", cGigs, name="clientgigs"),
     # Auxiliary paths such as Search, job count
     path("search_gigs/", search_gigs, name="search_gigs"),
     path("search_musicians/", search_musicians, name="search_musicians"),
     path("job_count/", job_count, name="job_count"),
-    path("base/", base, name="base"),
+    
    
     # NEWAPP
     path("AccountSetup/", account_setup, name="account_setup"),
@@ -54,7 +56,7 @@ urlpatterns = [
 
     ##PROFILES URLS
     path("EditProfile/", edit_profile, name="edit_profile"),
-    path("ViewProfile/", view_profile, name="view_profile"),
+    path("ViewProfile/<int:musician_id>", view_profile, name="view_profile"),
     path('view_musician_profile/<int:musician_id>/', view_musician_profile, name='view_musician_profile'),
 
     path("ReviewPage/", review_rating, name="reviews_ratings"),
@@ -62,10 +64,12 @@ urlpatterns = [
     
     
     ###DARAJA API URLs
-     path("services/", services, name="servicespage"),
+    path("services/", services, name="servicespage"),
     path('daraja/stk_push', stk_push_callback, name='stk_push_callback'),
+
    
     ## Trial Dashboards 
-
-
+    # path("admin_dashboard/", admin_dashboard, name="admin_dashboard"),
+    
+    path("payment/", payment ,name ='payment' )
 ]
